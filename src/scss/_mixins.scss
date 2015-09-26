@@ -1,0 +1,83 @@
+//Media Queries
+@mixin screen-medium {
+  @media only screen and (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin screen-large {
+  @media only screen and (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin screen-x-large {
+  @media only screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin media($width) {
+  @media only screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin grid($columns, $width) {
+  width-max: #{100 / $columns * $width}%;
+  flex-basis: #{100 / $columns * $width}%;
+}
+
+@mixin grid-layout($columns, $media, $name: columns) {
+  @include media($media) {
+      @for $i from 1 through $columns {
+        .#{$name}-#{$i} {
+            $col-width: 100/$columns*$i;
+            max-width:#{$col-width}#{%}; 
+            flex-basis:#{$col-width}#{%};
+          }
+      }
+   }
+}
+
+//Clearfix
+@mixin clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+
+//Font Size
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+//Font Face
+@mixin font-face($fontfamily, $fontname){
+	@font-face {
+	font-family: '#{$fontfamily}';
+    src: url('../fonts/#{$fontname}.eot');
+    src: url('../fonts/.svg##{$fontfamily}') format('svg'),
+          url('../fonts/#{$fontname}.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/#{$fontname}.woff2') format('woff2'),
+         url('../fonts/#{$fontname}.woff') format('woff'),
+         url('../fonts/#{$fontname}.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;	
+	}
+}
+
+//Example
+//@include font-face(whitneyblack, whitney-black-bas-webfont);
